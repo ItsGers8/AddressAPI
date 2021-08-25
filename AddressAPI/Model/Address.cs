@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -26,5 +27,10 @@ namespace AddressAPI.Model
         public string City { get; set; }
 
         public string Country { get; set; }
+
+        public string GetAddress()
+        {
+            return $"{Street} {HouseNumber}{Annex}, {PostalCode} {City}, {Country}";
+        }
     }
 }

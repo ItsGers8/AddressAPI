@@ -60,5 +60,32 @@
             <response code="404">The query was executed succesfully but no results were found.</response>
             <response code="200">The query was executed succesfully and results were found.</response>
         </member>
+        <member name="M:AddressAPI.Controllers.AddressesController.CalculateDistance(System.Int32,System.Int32)">
+            <summary>
+            Calculate the distance between two addresses.
+            </summary>
+            <param name="addressId1">The id of the first address.</param>
+            <param name="addressId2">The id of the second address.</param>
+            <returns>The distance in kilometres as a string.</returns>
+            <response code="404">One or both of the addresses were not found.</response>
+            <response code="200">The distance was calculated.</response>
+        </member>
+        <member name="M:AddressAPI.Controllers.AddressesController.CalculateDifferenceBetweenCoords(System.Double,System.Double,System.Double,System.Double)">
+            <summary>
+            Calculates the difference between two coordinates.
+            </summary>
+            <param name="lat1">Latitude of the first coordinate.</param>
+            <param name="long1">Longitude of the first coordinate.</param>
+            <param name="lat2">Latitude of the second coordinate.</param>
+            <param name="long2">Longitude of the second coordinate.</param>
+            <returns>The distance in kilometres as a double.</returns>
+        </member>
+        <member name="M:AddressAPI.Controllers.AddressesController.AddressExists(System.Int32)">
+            <summary>
+            Checks if an address exists with the given id.
+            </summary>
+            <param name="id">The id of the address.</param>
+            <returns>True when the address exists, otherwise false.</returns>
+        </member>
     </members>
 </doc>
