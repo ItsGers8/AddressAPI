@@ -30,8 +30,8 @@ namespace AddressAPI
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title = "AddressAPI", 
-                    Version = "v0.6",
-                    Description = "Create, read, update and delete addresses using this API. More functionality to be added soon.",
+                    Version = "v1.0",
+                    Description = "Create, read, update, delete, search through and calculate the distance between addresses using this API.",
                     Contact = new OpenApiContact
                     {
                         Name = "Gerson Mak",

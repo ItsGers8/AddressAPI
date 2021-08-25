@@ -7,6 +7,8 @@ using AddressAPI.DAL;
 using AddressAPI.Model;
 using AddressAPI.Controllers.Enums;
 using System;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
 
 namespace AddressAPI.Controllers
 {
@@ -141,6 +143,7 @@ namespace AddressAPI.Controllers
             return NoContent();
         }
 
+        // GET: api/Addresses/Search?column=AddressId&comparator=1&order=AddressId
         /// <summary>
         /// Search through the database.
         /// </summary>
@@ -164,6 +167,67 @@ namespace AddressAPI.Controllers
             return foundAddresses.Any() ? Ok(foundAddresses) : NotFound();
         }
 
+        // GET: api/Addresses/Distance?addressId1=1&addressId2=2
+        /// <summary>
+        /// Calculate the distance between two addresses.
+        /// </summary>
+        /// <param name="addressId1">The id of the first address.</param>
+        /// <param name="addressId2">The id of the second address.</param>
+        /// <returns>The distance in kilometres as a string.</returns>
+        /// <response code="404">One or both of the addresses were not found.</response>
+        /// <response code="200">The distance was calculated.</response>
+        [HttpGet("Distance")]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<String>> CalculateDistance(int addressId1, int addressId2)
+        {
+            Address address1 = await _context.Addresses.FindAsync(addressId1);
+            Address address2 = await _context.Addresses.FindAsync(addressId2);
+            if (address1 == null || address2 == null) return NotFound();
+
+            const string apiPath = "http://api.positionstack.com/v1/forward?access_key=36785081c1ae71ced578d341be41afa8&query=";
+            HttpClient client = new();
+            var jsonAddress1String = await client.GetStringAsync($"{apiPath}{address1.GetAddress()}");
+            var jsonAddress2String = await client.GetStringAsync($"{apiPath}{address2.GetAddress()}");
+
+            dynamic jsonAddress1 = JObject.Parse(jsonAddress1String);
+            dynamic jsonAddress2 = JObject.Parse(jsonAddress2String);
+
+            double latitudeAddress1 = jsonAddress1.data[0].latitude;
+            double latitudeAddress2 = jsonAddress2.data[0].latitude;
+            double longitudeAddress1 = jsonAddress1.data[0].longitude;
+            double longitudeAddress2 = jsonAddress2.data[0].longitude;
+
+            return Ok($"{CalculateDifferenceBetweenCoords(latitudeAddress1, longitudeAddress1, latitudeAddress2, longitudeAddress2):0.##} km");
+        }
+
+        /// <summary>
+        /// Calculates the difference between two coordinates.
+        /// </summary>
+        /// <param name="lat1">Latitude of the first coordinate.</param>
+        /// <param name="long1">Longitude of the first coordinate.</param>
+        /// <param name="lat2">Latitude of the second coordinate.</param>
+        /// <param name="long2">Longitude of the second coordinate.</param>
+        /// <returns>The distance in kilometres as a double.</returns>
+        private static double CalculateDifferenceBetweenCoords(double lat1, double long1, double lat2, double long2)
+        {
+            var phi1 = lat1 * Math.PI / 180;
+            var phi2 = lat2 * Math.PI / 180;
+            var deltaPhi = (lat2 - lat1) * Math.PI / 180;
+            var deltaLambda = (long2 - long1) * Math.PI / 180;
+
+            var a = Math.Sin(deltaPhi / 2) * Math.Sin(deltaPhi / 2) +
+                Math.Cos(phi1) * Math.Cos(phi2) * Math.Sin(deltaLambda / 2) * Math.Sin(deltaLambda / 2);
+            var b = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
+
+            return b * 6375.5;
+        }
+
+        /// <summary>
+        /// Checks if an address exists with the given id.
+        /// </summary>
+        /// <param name="id">The id of the address.</param>
+        /// <returns>True when the address exists, otherwise false.</returns>
         private bool AddressExists(int id)
         {
             return _context.Addresses.Any(e => e.AddressId == id);

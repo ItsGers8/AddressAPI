@@ -30,7 +30,13 @@ After starting the program, a webpage should be opened, this is SwaggerUI. This 
     The API has endpoints to interact with the database to save, edit, delete and view addresses.
 
 - Search
+
     The API has an endpoint to search through the database. By entering what column to look at, what that column should equal and what to order the results by, the server will look through the database and return found results.
+
+- Calculate distance
+
+    The API has an endpoint to calculate the distance between two addresses. By entering the ids of two addresses, the server will get the coordinates of them and return the difference between these coordinates. 
+    The haversine formula is used for the calculation, from [here](https://www.movable-type.co.uk/scripts/latlong.html)
 
 ## Information
 This API was commisioned by [Social Brothers](https://www.socialbrothers.nl) and coded by [Gerson Mak](https://www.linkedin.com/in/gerson-mak).
