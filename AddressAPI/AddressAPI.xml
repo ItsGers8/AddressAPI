@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>AddressAPI</name>
+    </assembly>
+    <members>
+        <member name="M:AddressAPI.Controllers.AddressesController.GetAddresses">
+            <summary>
+            Gets all the addresses in the database.
+            </summary>
+            <returns>A list of Address objects.</returns>
+            <response code="200">The addresses were found.</response>
+        </member>
+        <member name="M:AddressAPI.Controllers.AddressesController.GetAddress(System.Int32)">
+            <summary>
+            Gets a specific address from the database.
+            </summary>
+            <param name="id">The id of the requested address.</param>
+            <returns>An Address object.</returns>
+            <response code="200">The address was found.</response>
+            <response code="404">No address was found with that id.</response>
+        </member>
+        <member name="M:AddressAPI.Controllers.AddressesController.PutAddress(System.Int32,AddressAPI.Model.Address)">
+            <summary>
+            Updates an address in the database.
+            </summary>
+            <param name="id">The id of the to-be updated address.</param>
+            <param name="address">The address to be saved in the database.</param>
+            <returns>A status code.</returns>
+            <response code="400">The entered id does not correspond to the id of the object.</response>
+            <response code="404">No address was found with that id.</response>
+            <response code="204">The address was updated in the database.</response>
+        </member>
+        <member name="M:AddressAPI.Controllers.AddressesController.PostAddress(AddressAPI.Model.Address)">
+            <summary>
+            Saves an address in the database.
+            </summary>
+            <param name="address">The to-be saved address.</param>
+            <returns>A status code with the address.</returns>
+            <response code="201">The address was saved in the database.</response>
+        </member>
+        <member name="M:AddressAPI.Controllers.AddressesController.DeleteAddress(System.Int32)">
+            <summary>
+            Deletes an address from the database.
+            </summary>
+            <param name="id">The id of the to-be deleted address.</param>
+            <returns>A status code.</returns>
+            <response code="404">No address was found with that id.</response>
+            <response code="204">The address was deleted.</response>
+        </member>
+    </members>
+</doc>

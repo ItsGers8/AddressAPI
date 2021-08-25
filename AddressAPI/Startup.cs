@@ -1,18 +1,14 @@
 using AddressAPI.DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 
 namespace AddressAPI
 {
@@ -35,14 +31,18 @@ namespace AddressAPI
                 c.SwaggerDoc("v1", new OpenApiInfo { 
                     Title = "AddressAPI", 
                     Version = "v0.3",
-                    Description = "Create, read, update ánd delete addresses using this API. More functionality to be added soon.",
+                    Description = "Create, read, update and delete addresses using this API. More functionality to be added soon.",
                     Contact = new OpenApiContact
                     {
                         Name = "Gerson Mak",
-                        Email = "gerson@makweb.nl"
+                        Email = "gerson@makweb.nl",
+                        Url = new Uri("https://www.linkedin.com/in/gerson-mak")
                     }
                 });
                 c.EnableAnnotations();
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
