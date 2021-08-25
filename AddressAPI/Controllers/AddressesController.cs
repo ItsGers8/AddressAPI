@@ -66,13 +66,13 @@ namespace AddressAPI.Controllers
         /// <param name="id">The id of the to-be updated address.</param>
         /// <param name="address">The address to be saved in the database.</param>
         /// <returns>A status code.</returns>
+        /// <response code="204">The address was updated in the database.</response>
         /// <response code="400">The entered id does not correspond to the id of the object.</response>
         /// <response code="404">No address was found with that id.</response>
-        /// <response code="204">The address was updated in the database.</response>
         [HttpPut("{id}")]
+        [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        [ProducesResponseType(204)]
         public async Task<IActionResult> PutAddress(int id, Address address)
         {
             if (id != address.AddressId)
@@ -124,11 +124,11 @@ namespace AddressAPI.Controllers
         /// </summary>
         /// <param name="id">The id of the to-be deleted address.</param>
         /// <returns>A status code.</returns>
-        /// <response code="404">No address was found with that id.</response>
         /// <response code="204">The address was deleted.</response>
+        /// <response code="404">No address was found with that id.</response>
         [HttpDelete("{id}")]
-        [ProducesResponseType(404)]
         [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
         public async Task<IActionResult> DeleteAddress(int id)
         {
             var address = await _context.Addresses.FindAsync(id);
@@ -151,13 +151,13 @@ namespace AddressAPI.Controllers
         /// <param name="comparator">What to compare the searched column to.</param>
         /// <param name="order">What to order the results by.</param>
         /// <returns>A list of addresses matching the entered search query.</returns>
+        /// <response code="200">The query was executed succesfully and results were found.</response>
         /// <response code="400">The query could not be executed due to one or more parameters being null.</response>
         /// <response code="404">The query was executed succesfully but no results were found.</response>
-        /// <response code="200">The query was executed succesfully and results were found.</response>
         [HttpGet("Search")]
+        [ProducesResponseType(200)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
-        [ProducesResponseType(200)]
         public async Task<ActionResult<IEnumerable<Address>>> SearchDatabase([FromQuery] string column, [FromQuery] string comparator, [FromQuery] string order)
         {
             if (column == null || order == null) return BadRequest();
@@ -174,11 +174,11 @@ namespace AddressAPI.Controllers
         /// <param name="addressId1">The id of the first address.</param>
         /// <param name="addressId2">The id of the second address.</param>
         /// <returns>The distance in kilometres as a string.</returns>
-        /// <response code="404">One or both of the addresses were not found.</response>
         /// <response code="200">The distance was calculated.</response>
+        /// <response code="404">One or both of the addresses were not found.</response>
         [HttpGet("Distance")]
-        [ProducesResponseType(404)]
         [ProducesResponseType(200)]
+        [ProducesResponseType(404)]
         public async Task<ActionResult<String>> CalculateDistance(int addressId1, int addressId2)
         {
             Address address1 = await _context.Addresses.FindAsync(addressId1);

@@ -36,7 +36,18 @@ After starting the program, a webpage should be opened, this is SwaggerUI. This 
 - Calculate distance
 
     The API has an endpoint to calculate the distance between two addresses. By entering the ids of two addresses, the server will get the coordinates of them and return the difference between these coordinates. 
-    The haversine formula is used for the calculation, from [here](https://www.movable-type.co.uk/scripts/latlong.html)
+    The haversine formula is used for the calculation, from [here](https://www.movable-type.co.uk/scripts/latlong.html).
 
-## Information
+## Final words
 This API was commisioned by [Social Brothers](https://www.socialbrothers.nl) and coded by [Gerson Mak](https://www.linkedin.com/in/gerson-mak).
+
+### My thoughts
+- What I like:
+   
+    - The ease with which you can search through the database.
+    - The documentation being quite expansive.
+    - That everything works.
+
+- What could be better:
+
+    - The distance calculation is long and janky, this would have been better if the geolocation API could do it for me, but all the APIs that did that natively cost money.

@@ -27,9 +27,9 @@
             <param name="id">The id of the to-be updated address.</param>
             <param name="address">The address to be saved in the database.</param>
             <returns>A status code.</returns>
+            <response code="204">The address was updated in the database.</response>
             <response code="400">The entered id does not correspond to the id of the object.</response>
             <response code="404">No address was found with that id.</response>
-            <response code="204">The address was updated in the database.</response>
         </member>
         <member name="M:AddressAPI.Controllers.AddressesController.PostAddress(AddressAPI.Model.Address)">
             <summary>
@@ -45,8 +45,8 @@
             </summary>
             <param name="id">The id of the to-be deleted address.</param>
             <returns>A status code.</returns>
-            <response code="404">No address was found with that id.</response>
             <response code="204">The address was deleted.</response>
+            <response code="404">No address was found with that id.</response>
         </member>
         <member name="M:AddressAPI.Controllers.AddressesController.SearchDatabase(System.String,System.String,System.String)">
             <summary>
@@ -56,9 +56,9 @@
             <param name="comparator">What to compare the searched column to.</param>
             <param name="order">What to order the results by.</param>
             <returns>A list of addresses matching the entered search query.</returns>
+            <response code="200">The query was executed succesfully and results were found.</response>
             <response code="400">The query could not be executed due to one or more parameters being null.</response>
             <response code="404">The query was executed succesfully but no results were found.</response>
-            <response code="200">The query was executed succesfully and results were found.</response>
         </member>
         <member name="M:AddressAPI.Controllers.AddressesController.CalculateDistance(System.Int32,System.Int32)">
             <summary>
@@ -67,8 +67,8 @@
             <param name="addressId1">The id of the first address.</param>
             <param name="addressId2">The id of the second address.</param>
             <returns>The distance in kilometres as a string.</returns>
-            <response code="404">One or both of the addresses were not found.</response>
             <response code="200">The distance was calculated.</response>
+            <response code="404">One or both of the addresses were not found.</response>
         </member>
         <member name="M:AddressAPI.Controllers.AddressesController.CalculateDifferenceBetweenCoords(System.Double,System.Double,System.Double,System.Double)">
             <summary>
