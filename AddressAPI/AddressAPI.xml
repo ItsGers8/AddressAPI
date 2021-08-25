@@ -48,5 +48,17 @@
             <response code="404">No address was found with that id.</response>
             <response code="204">The address was deleted.</response>
         </member>
+        <member name="M:AddressAPI.Controllers.AddressesController.SearchDatabase(System.String,System.String,System.String)">
+            <summary>
+            Search through the database.
+            </summary>
+            <param name="column">What column to search through.</param>
+            <param name="comparator">What to compare the searched column to.</param>
+            <param name="order">What to order the results by.</param>
+            <returns>A list of addresses matching the entered search query.</returns>
+            <response code="400">The query could not be executed due to one or more parameters being null.</response>
+            <response code="404">The query was executed succesfully but no results were found.</response>
+            <response code="200">The query was executed succesfully and results were found.</response>
+        </member>
     </members>
 </doc>

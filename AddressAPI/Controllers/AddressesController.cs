@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AddressAPI.DAL;
 using AddressAPI.Model;
+using AddressAPI.Controllers.Enums;
+using System;
 
 namespace AddressAPI.Controllers
 {
@@ -139,6 +139,29 @@ namespace AddressAPI.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
+        }
+
+        /// <summary>
+        /// Search through the database.
+        /// </summary>
+        /// <param name="column">What column to search through.</param>
+        /// <param name="comparator">What to compare the searched column to.</param>
+        /// <param name="order">What to order the results by.</param>
+        /// <returns>A list of addresses matching the entered search query.</returns>
+        /// <response code="400">The query could not be executed due to one or more parameters being null.</response>
+        /// <response code="404">The query was executed succesfully but no results were found.</response>
+        /// <response code="200">The query was executed succesfully and results were found.</response>
+        [HttpGet("Search")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(404)]
+        [ProducesResponseType(200)]
+        public async Task<ActionResult<IEnumerable<Address>>> SearchDatabase([FromQuery] string column, [FromQuery] string comparator, [FromQuery] string order)
+        {
+            if (column == null || order == null) return BadRequest();
+            _ = Enum.TryParse(column.ToLower(), out Column enumColumn);
+            _ = Enum.TryParse(order.ToLower(), out Column orderColumn);
+            List<Address> foundAddresses = await _context.Addresses.FromSqlRaw($"SELECT * FROM Address WHERE {enumColumn} == '{comparator}' ORDER BY {orderColumn}").ToListAsync();
+            return foundAddresses.Any() ? Ok(foundAddresses) : NotFound();
         }
 
         private bool AddressExists(int id)
